@@ -1,7 +1,7 @@
 const gemTypes = ["cosmic"];
 const lootTypes = ["radiant", "stellar", 'dust'];
 
-Array.from(document.querySelectorAll("button")).forEach((button)=> {
+Array.from(document.querySelectorAll(".btn-sm")).forEach((button)=> {
     button.addEventListener("click", () => {
         const myGemType = button.id.split("-")[0];
         const myLootType = button.id.split("-")[1]
@@ -17,6 +17,10 @@ Array.from(document.querySelectorAll("input")).forEach(input => {
         const myValue = input.value;
         updateValuesFromInput(myGemType, myLootType, myValue);
     });
+})
+
+document.querySelector("#save-data").addEventListener("click", () => {
+    saveData()
 })
 
 
@@ -58,4 +62,26 @@ function changeTotal(gemType) {
         return acc;
     }, 0);
     totalDustLine.textContent = totalDustValue;
+}
+
+function saveData() {
+    const radiantValue = document.getElementById("cosmic-radiant").value;
+    localStorage.setItem("cosmic-radiant", radiantValue);
+    const dustValue = document.getElementById("cosmic-dust").value;
+    localStorage.setItem("cosmic-dust", dustValue);
+    const stellarValue = document.getElementById("cosmic-stellar").value;
+    localStorage.setItem("cosmic-stellar", stellarValue);
+    console.log(localStorage.getItem("cosmic-stellar"))
+}
+
+window.onload = () => {
+    const radiantValue = localStorage.getItem("cosmic-radiant");
+    const dustValue = localStorage.getItem("cosmic-dust");
+    const stellarValue = localStorage.getItem("cosmic-stellar");
+    document.getElementById("cosmic-radiant").value = radiantValue;
+    document.getElementById("cosmic-dust").value = dustValue;
+    document.getElementById("cosmic-stellar").value = stellarValue;
+    updateValuesFromInput("cosmic", "radiant", radiantValue);
+    updateValuesFromInput("cosmic", "dust", dustValue);
+    updateValuesFromInput("cosmic", "stellar", stellarValue);
 }
